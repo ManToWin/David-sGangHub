@@ -1,0 +1,64 @@
+local Lighting = game:GetService("Lighting")
+local Time = 200
+
+_G.UI_Theme = "Pink"
+
+
+--UI_Theme Names-- 
+-- Pink
+-- Vice
+-- White
+
+
+--------------------------------------------------------------------------------
+local Asset_ID = 6951436376
+local Assets = game:GetObjects("rbxassetid://".. Asset_ID)[1]
+Assets.Parent = game.ReplicatedStorage
+repeat wait() until Assets.SecurityCheck.Patched
+
+local function SecurityCheckFunc()
+    print(Assets.SecurityCheck.Patched.Value)
+    if Assets.SecurityCheck.Patched.Value == true then
+        game.Players.LocalPlayer:Kick("Script Was Patched, Report to david.")
+    end
+end
+
+SecurityCheckFunc()
+
+wait(1)
+
+--UI_Theme
+for i,ui in pairs(workspace:GetDescendants()) do
+    if ui.ClassName == "TextButton" then
+        if _G.UI_Theme == "Pink" then
+            local Theme = Assets["UI_Themes"].Pink:Clone()
+            Theme.Parent = ui
+        elseif _G.UI_Theme == "Vice" then
+            local Theme = Assets["UI_Themes"].Red:Clone()
+            Theme.Parent = ui
+		elseif _G.UI_Theme == "White" then
+            local Theme = Assets["UI_Themes"].Red:Clone()
+            Theme.Parent = ui
+        end
+    end
+end
+
+--Lighting 
+game.Lighting.ClockTime = 7.793
+game.Lighting.Ambient = Color3.fromRGB(252, 183, 124)
+game.Lighting.ColorShift_Top = Color3.fromRGB(255, 192, 146)
+game.Lighting.OutdoorAmbient = Color3.fromRGB(65, 72, 53)
+game.Lighting.GeographicLatitude = 53
+workspace.Gravity = 1
+
+for i, OldSky in pairs(game.Lighting:GetChildren()) do 
+    OldSky:Destroy()
+end
+
+wait(.5)
+
+for i,Sky in pairs(Assets.Lighting:GetChildren()) do
+    local sky = Sky:Clone()
+    sky.Parent = Lighting
+end
+
